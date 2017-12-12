@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  postgresql:
+    build: 
+      context: .
+      dockerfile: DockerfilePostgreSQL
+    volumes:
+      - './postgreSQLData:/var/lib/postgresql/data'
+      - './oedb_test.dump:/oedb_test.dump'
+    environment:
+      - 'POSTGRES_PASSWORD=oonohvothu7evaib0ahv0jaiF8aeph98'
+    ports:
+      - '5432:5432'
+
+  openego:
+    build:
+      context: .
+      dockerfile: DockerfilePython
+    volumes:
+      - './oeplatform:/oeplatform'
+      - '~/.ssh:/home/openego/.ssh'
+
+    environment:
+      - 'POSTGRES_PASSWORD=oonohvothu7evaib0ahv0jaiF8aeph98'
+    ports:
+      - '8000:8000'
+    links:
+      - postgresql
+

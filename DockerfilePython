@@ -1,0 +1,17 @@
+FROM python:3.4
+
+RUN apt-get update && apt-get upgrade -y
+RUN apt-get install -y git openssh-client
+
+RUN useradd -m -d /home/openego openego
+
+COPY pythonStartScript.sh ./pythonStartScript.sh
+
+#RUN chown openego:openego /oeplatform 
+
+
+
+USER openego
+
+ENTRYPOINT ["/bin/bash", "-c"]
+CMD ["./pythonStartScript.sh"]

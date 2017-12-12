@@ -1,0 +1,12 @@
+# latest == LTS
+FROM postgres:9.6
+
+RUN apt-get update
+RUN apt-get install -y postgresql-9.6-postgis-2.3
+
+# Correct the Error: could not open temporary statistics file "/var/run/postgresql/9.3-main.pg_stat_tmp/global.tmp": No such file or directory
+RUN mkdir -p /var/run/postgresql/9.6-main.pg_stat_tmp
+RUN chown postgres.postgres /var/run/postgresql/9.6-main.pg_stat_tmp -R
+
+COPY ./initPostgres.sh /docker-entrypoint-initdb.d/initPostgres.sh
+
